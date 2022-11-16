@@ -25,7 +25,6 @@ async function getJokes(num) {
         }
     }
 
-    console.log("the jokes: ", jokes);
     return jokes;
 }
 
@@ -34,7 +33,8 @@ function buildJokeDiv(joke) {
     let $rating = $("<span>", {class: "rating"}).text(" 0 ");
     let $plusButton = $("<button>", {class: "plus-button", "data-adjust": "1"}).text("+");
     let $jokeText = $("<span>").text(joke);
-    let $jokeDiv = $("<div>").append($minusButton, $rating, $plusButton, " ", $jokeText);
+
+    let $jokeDiv = $("<div>", {class: "joke"}).append($minusButton, $rating, $plusButton, " ", $jokeText);
 
     return $jokeDiv;
 }
@@ -52,13 +52,24 @@ async function getInputAndAddJokes() {
 }
 
 function reorderJokes() {
+    // get list of all joke ratings
+    let $jokeRatings = $(".rating");
+    let jokesArray = jQuery.makeArray($jokeRatings);
+    console.log(jokesArray.sort());
 
+    // compare ratings, based on their parseInt() vals
+    function _compare(a, b) {
+
+    }
 } 
 
 function adjustRating() {
     let $rating = $(event.target).parent().children(".rating");
     let change = $(event.target).attr("data-adjust");
-    console.log(change);
+    let newVal = +$rating.text() + +change
+    $rating.text(` ${newVal} `);
+
+    // reorderJokes();
 }
 
 $("#get-jokes").on("click", getInputAndAddJokes);
